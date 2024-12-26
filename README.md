@@ -1,25 +1,51 @@
-# Quickstart
+<div align="center">
+    <h1 align="center">Add a UI to a BentoML Service with Gradio</h1>
+</div>
 
-This quickstart demonstrates how to add Gradio web UI to a BentoML service.
+[Gradio](https://github.com/gradio-app/gradio) is an open-source Python package that allows you to quickly build a web application for your model, API, or any arbitrary Python function. This project demonstrates how to add a Gradio web UI to a BentoML Service.
 
-## Prerequisites
+See [here](https://docs.bentoml.com/en/latest/examples/overview.html) for a full list of BentoML example projects.
 
-Python 3.9+ and `pip` installed. See the [Python downloads page](https://www.python.org/downloads/) to learn more.
+## Install dependencies
 
-## Get started
+```bash
+git clone https://github.com/bentoml/BentoGradio.git
+cd BentoGradio
 
-Perform the following steps to run this project and deploy it to BentoCloud.
+# Recommend Python 3.11
+pip install -r requirements.txt
+```
 
-1. Install the required dependencies:
+## Run the BentoML Service
 
-   ```bash
-   pip install -r requirements.txt
-   ```
+We have defined a BentoML Service in `service.py`. Run `bentoml serve` in your project directory to start the Service.
 
-2. Serve your model as an HTTP server. This starts a local server at [http://localhost:3000](http://localhost:3000/), making your model accessible as a web service.
+```python
+$ bentoml serve .
+```
 
-   ```bash
-   bentoml serve .
-   ```
+You can access the Gradio web UI at http://localhost:3000/ui.
 
-3. Visit http://localhost:3000/ui for gradio UI. BentoML APIs can be found at http://localhost:3000
+![gradio-ui-bentoml](./gradio-ui-bentoml.png)
+
+For detailed explanations, see [the BentoML documentation](https://docs.bentoml.com/en/latest/build-with-bentoml/gradio.html).
+
+## Deploy to BentoCloud
+
+After the Service is ready, you can deploy the application to BentoCloud for better management and scalability. [Sign up](https://www.bentoml.com/) if you haven't got a BentoCloud account.
+
+Make sure you have [logged in to BentoCloud](https://docs.bentoml.com/en/latest/bentocloud/how-tos/manage-access-token.html).
+
+```bash
+bentoml cloud login
+```
+
+Deploy it from the project directory.
+
+```bash
+bentoml deploy .
+```
+
+Once the application is up and running, you can access it via the exposed URL.
+
+**Note**: For custom deployment in your own infrastructure, use [BentoML to generate an OCI-compliant image](https://docs.bentoml.com/en/latest/get-started/packaging-for-deployment.html).
