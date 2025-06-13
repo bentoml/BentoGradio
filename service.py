@@ -17,6 +17,10 @@ breaches in the laws of physics. Local authorities are considering a town festiv
 to celebrate what is being hailed as 'The Leap of the Century."
 
 
+my_image = bentoml.images.Image(python_version="3.11") \
+        .python_packages("torch", "transformers", "gradio")
+
+
 def summarize_text(text: str) -> str:
     svc_instance = bentoml.get_current_service()
     return svc_instance.summarize([text])[0]
@@ -31,12 +35,14 @@ io = gr.Interface(
 )
 
 
-@bentoml.service(resources={"cpu": "4"})
+@bentoml.service(image=my_image, resources={"cpu": "4"})
 @bentoml.gradio.mount_gradio_app(io, path="/ui")
 class Summarization:
+    model_path = bentoml.models.HuggingFaceModel("sshleifer/distilbart-cnn-12-6")
+    
     def __init__(self) -> None:
         device = "cuda" if torch.cuda.is_available() else "cpu"
-        self.pipeline = pipeline("summarization", device=device)
+        self.pipeline = pipeline('summarization', model=self.model_path, device=device)
 
     @bentoml.api(batchable=True)
     def summarize(self, texts: list[str]) -> list[str]:
