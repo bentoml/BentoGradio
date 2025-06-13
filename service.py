@@ -18,7 +18,7 @@ to celebrate what is being hailed as 'The Leap of the Century."
 
 
 my_image = bentoml.images.Image(python_version="3.11") \
-        .python_packages("torch", "transformers", "gradio")
+        .requirements_file('requirements.txt')
 
 
 def summarize_text(text: str) -> str:
